@@ -1,31 +1,140 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32929.386
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "Project1.vcxproj", "{EB862F7A-E936-4D8C-916F-DC05DF0CD237}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Debug|x64.ActiveCfg = Debug|x64
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Debug|x64.Build.0 = Debug|x64
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Debug|x86.ActiveCfg = Debug|Win32
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Debug|x86.Build.0 = Debug|Win32
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Release|x64.ActiveCfg = Release|x64
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Release|x64.Build.0 = Release|x64
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Release|x86.ActiveCfg = Release|Win32
-		{EB862F7A-E936-4D8C-916F-DC05DF0CD237}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {06F2BD90-9562-4CD7-B78B-93D2A8785950}
-	EndGlobalSection
-EndGlobal
+
+#include <Windows.h>
+#include <iostream >
+using namespace std;
+char matrix[3][3]{ '1','2','3','4', '5','6','7','8','9' };
+char player ='X';
+void draw()
+{
+	system("cls");
+	cout << "   -------------------------- \n";
+
+	for (int i = 0; i <3; i++)
+	{ 
+		cout << " |    ";
+		for (int j = 0; j < 3; j++)
+			cout <<"\t" << matrix[i][j] << " ";
+	
+	cout << "    | \n"; 
+}
+	cout << "   -------------------------- \n";
+}
+
+void replace()
+{
+	char position ;
+	cout << "Enter your position (" << player << ") : \n";
+	cin >> position;
+
+	
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{ 
+			if (matrix[i][j] == position)
+				matrix[i][j] = player; 
+
+		}
+		
+	}
+	if (player == 'X')
+		player = 'O'; 
+	else 
+		player = 'X';
+}
+
+char winer()
+{// horezontal ------- 
+	int x = 0, o = 0, count = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (matrix[i][j] == 'X')
+				x++;
+			else if (matrix[i][j] == 'O')
+				o++;
+			if (x == 3)
+			return 'X';
+		    if (o == 3)
+			return 'O';
+		}
+		
+           x = 0; o = 0;
+	}
+	x = 0; o = 0;
+	// vertical -------
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (matrix[j][i] == 'X')
+				x++;
+			else if (matrix[j][i] == 'O')
+				o++;
+			if (x == 3)
+			return 'X';
+		  if (o == 3)
+			return 'O';
+
+		}
+		x = 0; o = 0;
+
+	}
+	x = 0; o = 0;
+	// Oblic--------righte to left .
+
+			if (matrix[0][0] == 'X' && matrix[1][1] == 'X' && matrix[2][2] == 'X')
+				return 'X';
+			if (matrix[0][0] == 'O' && matrix[1][1] == 'O' && matrix[2][2] == 'O')
+				return 'O';
+// Oblic-------- left to  right
+			if (matrix[0][2] == 'X' && matrix[1][1] == 'X' && matrix[2][0] == 'X')
+				return 'X';
+			if (matrix[0][2] == 'O' && matrix[1][1] == 'O' && matrix[0][2] == 'O')
+				return 'O';
+
+
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					if (matrix[j][i] != 'X' && matrix[j][i] != 'O')
+						count++;
+				}
+			}
+			if (count == 0)
+				return '=';
+			
+				return '*';
+}
+
+int main()
+{
+
+	
+	while (winer() == '*')
+	{
+		draw();
+		replace();
+		winer(); 
+	;
+    }
+	if (winer() == 'X')
+		cout << "the winer is X \n ";
+	if (winer() == 'O')
+		cout << "the winer is O \n ";
+	if (winer() == '=')
+		cout << "NO Winer \n";
+		
+	system("pause");
+	
+
+	return 0;
+}
+
+
+
+
