@@ -1,0 +1,268 @@
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+void fun1(int x);                 //1-FROM DECIMAL TO BINARY
+void fun2(int x);                // 2-FROM DECIMAL TO OCTAL
+void dToHex(int x);               // 3-FROM DECIMAL TO HEXADECIMAL
+void fun4(int x);              //4-FROM BINARY TO DECIMAL     
+void fun5(int x);           //5-FROM OCTAL TO DECIMAL
+int  fun6(string hexValue);
+    // 6 - FROM HEXADECIMAL TO DECIMAL
+int x;                       // 7-FROM OCTAL TO HEXADECIMAL
+
+int main()
+{
+	
+	string hexValue;
+	int x, choise = 0 ;
+	
+	while (choise != 7)
+	{
+		
+		cout << ">>>>>> Welcom to Majdi Adwan programm <<<<<< \n" << " \n>>>{ Function Number 6 contains some problems, and your task, my friend, is to fix this defect }<<<\n \n Select one : \n";
+		cout << "\n1-FROM DECIMAL TO BINARY\n2-FROM DECIMAL TO OCTAL\n3-FROM DECIMAL TO HEXADECIMAL\n4-FROM BINARY TO DECIMAL\n";
+		cout << "5-FROM OCTAL TO DECIMAL\n6-FROM HEXADECIMAL TO DECIMAL \n 7-EXIT\n enter your choise : ";
+		cin >> choise;
+		switch (choise)
+		{
+		case 1:cout << "FROM DECIMAL TO BINARY\n enter number\n ";
+			cin >> x;
+			fun1(x);
+			break;
+		case 2:cout << "FROM DECIMAL TO OCTAL\n enter number\n ";
+			cin >> x;
+			fun2(x);
+			break;
+		case 3:cout << "FROM DECIMAL TO HEXADECIMAL\n enter number\n ";
+			cin >> x;
+			dToHex(x);
+			break;
+
+		case 4:cout << "FROM BINARY TO DECIMAL\n enter number\n ";
+			cin >> x;
+			fun4(x);
+			break;
+		case 5:cout << "FROM OCTAL TO DECIMAL\n enter number\n ";
+			cin >> x;
+			fun5(x);
+			break;
+		case 6:cout << "FROM HEXADECIMAL TO DECIMAL \n enter number\n ";
+			cin >> hexValue;
+			
+			int decimalValue = fun6(hexValue);
+			if (decimalValue != -1)
+			{
+				cout << decimalValue << endl;
+
+			}
+			break;
+		
+		
+		}
+		system("cls");
+	}
+	
+	cout << " \n see you later\n";
+	return 0;
+}
+
+void fun1(int x) //1-FROM DECIMAL TO BINARY
+{
+	int  d, k, z = 0, i = 0;
+	k = x;
+	int print[20];
+	
+	while (x != 7)
+	{ 
+			system("cls");
+		cout << " DECIMAL Value = " << k << "  BINARY value \n ---->  \n";
+		
+		while (x != 0)
+		{ 
+		
+			print[i] = x % 2;
+			x = x / 2;
+			i++;
+	      
+		} 
+		for (int j = i - 1; j >= 0; j--)
+		{
+			cout << print[j];
+		}
+
+		cout << "\n-----------\nenter new number\n to Exit enter 7\n";
+		cin >> x;
+		k = x;
+	
+	}
+	
+	system("cls");
+   
+	
+}
+void fun2(int x)  //2-FROM DECIMAL TO OCTAL
+{
+	int  d ,i=0;
+	int k = x ;
+	int print[20]; 
+	while (x !=7)
+	{
+		system("cls");
+		cout << " DECIMAL Value = " << k << " OCTAL value : \n --------->  \n";
+
+	
+		while (x != 0)
+		{
+
+			print[i] = x % 8;
+			x = x / 8;
+			
+			
+			i++;
+		}
+		for (int j = i - 1; j >= 0; j--)
+		{
+			cout << print[j];
+		}
+
+		cout << "\n-----------\nenter new number\n to Exit enter 7\n";
+		cin >> x;
+		k = x;
+	}
+	
+	
+	system("cls");
+
+}
+
+ void dToHex (int x) // 3-FROM DECIMAL TO HEXADECIMAL
+{
+	int k=x , rem = 0 , i = 0;
+	string ans = "";
+	char ch;
+	while (x != 7)
+	{
+
+		system("cls");
+		cout << " DECIMAL Value = " << k << " -------> HEXADECIMAL value  = " ;
+		
+		char hexaDeciNum[100];
+		
+		while (x != 0) {
+			 
+			rem = x % 16;
+			if (rem < 10) {
+				hexaDeciNum[i] = rem + 48;
+				i++;
+			}
+			else {
+				hexaDeciNum[i] = rem + 55;
+				i++;
+			}
+
+			x = x / 16;
+		}
+
+		for (int j = i - 1; j >= 0; j--)
+			cout << hexaDeciNum[j];
+		
+		cout << "\n-----------\nenter new number\n to Exit enter 7\n";
+			cin >> x;
+			k = x;
+	 }
+	system("cls");
+}
+
+
+
+void fun4(int x)  // 4-FROM BINARY TO DECIMAL
+{
+	int  d, c = 0, de = 0 ,k=x;
+
+
+	while(x !=7)
+
+	{
+        system("cls");
+		while (x != 0)
+		{
+			d = x % 10;
+			x = x / 10;
+
+			de = de + (d * pow(2, c));
+			c++;
+		}
+		cout << "BINARY Value = " << k << " DECIMAL value >>>>  \n";
+
+           cout << ">>>>> " << de;
+		  
+		   cout << "\n-----------\nenter new number\n to Exit enter 7\n";
+	cin >> x;
+	k = x;
+	}
+	system("cls");
+
+}
+
+void fun5(int x)   // 5 - FROM OCTAL TO DECIMAL
+{
+	int  d, c = 0, de = 0, k = x;
+	while(x !=7)
+	{ system("cls");
+	while (x != 0)
+	{
+		
+		d = x % 10;
+		x = x / 10;
+
+		de = de + (d * pow(8, c));
+		c++;
+	}
+
+	cout << " OCTAL Value = " << k << " , DECIMAL value >>>>  \n";
+	cout << de;
+	
+	
+
+	cout << "\n-----------\nenter new number\n to Exit enter 7\n";
+	cin >> x;
+	k = x;
+}
+	system("cls");
+}
+
+int  fun6(string hexValue)  //6-FROM HEXADECIMAL TO DECIMAL
+{    
+
+
+int decimalValue = 0;
+int hexLength = hexValue.length();
+
+for (int i = 0; i < hexLength; i++) {
+	char hexDigit = hexValue[i];
+	int decimalDigit;
+
+	if (hexDigit >= '0' && hexDigit <= '9') {
+		decimalDigit = hexDigit - '0';
+	}
+	else if (hexDigit >= 'A' && hexDigit <= 'F') {
+		decimalDigit = hexDigit - 'A' + 10;
+	}
+	else if (hexDigit >= 'a' && hexDigit <= 'f') {
+		decimalDigit = hexDigit - 'a' + 10;
+	}
+	else {
+		cout << "Invalid hexadecimal digit: " << hexDigit << endl;
+		return -1; 
+	}
+
+	int positionValue = pow(16, hexLength - 1 - i);
+	decimalValue += decimalDigit * positionValue;
+}
+
+return decimalValue;
+
+
+}
