@@ -1,0 +1,39 @@
+
+ #include<iostream>
+#include<windows.h>
+using namespace std;
+int main()
+{
+	int hours, min, sec;
+	cout << " entet houer ";
+	cin >> hours;
+	cout << " entet mint ";
+	cin >> min;
+	cout << " entet second \n ";
+	cin >> sec;
+	while (1)
+	{
+		system("cls");
+		if (min > 59)
+		{
+			hours++;
+			min = 0;
+		}
+		if (sec > 59)
+		{
+			min++;
+			sec = 0;
+
+
+		}
+
+		if (hours > 12)
+			hours = 0;
+		cout << "\n -----------------------------------------------------------------------------\n";
+		cout << " \t \t " << hours << " : " << min << " : " << sec << "\n";
+		cout << "\n -----------------------------------------------------------------------------\n";
+		sec++;
+		Sleep(900);
+	}
+	return 0;
+}  
