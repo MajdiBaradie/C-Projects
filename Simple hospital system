@@ -173,7 +173,7 @@ int Patient::RandomRoom() {
 }
 
 int Patient::Randomdep(vector<Doctors>& doctorinf) {
-    int r = rand() % (doctorinf.size() - 1) + 1;
+    int r = (rand() % (doctorinf.size()+1))+1 ;
     return r;
 }
 
@@ -343,7 +343,7 @@ int main() {
     patients.emplace_back("Moataz khalid", "male", "Heart patient", 58, "2595445865", 4, "mohammed ali", 1);
     panNames.emplace_back("Moataz khalid");
 
-    string userName = "CSEngineers", Password = "123", userName1, Password1;
+    string userName = "CSE", Password = "123", userName1, Password1;
     do {
         clearScreen();
         cout << "Register as\n1-) Administrator\n2-) Receptionist\n3-) Exit\n";
