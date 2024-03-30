@@ -1,0 +1,381 @@
+#include <iostream>
+#include <vector>
+#include <cstdlib> // لاستخدام system("cls") أو system("clear")
+#include <string>
+#include <ctime> // لإنشاء أرقام عشوائية
+
+using namespace std;
+
+class Doctors; // إعلان مسبق للفئة Doctors لأنها مستخدمة في فئة Patient
+
+class Patient {
+public:
+    string Name, Gender, Situation, PhoneNumber, doc_Nam;
+    int Age, RoomNumber, depnumber;
+
+    Patient(string name, string gender, string situation, int age, string phoneNumber, int roomn, string doc, int depN) {
+        Name = name;
+        Gender = gender;
+        Situation = situation;
+        Age = age;
+        PhoneNumber = phoneNumber;
+        RoomNumber = roomn;
+        doc_Nam = doc;
+        depnumber = depN;
+    }
+
+    Patient() {
+        Name = "Moataz khalid";
+        Gender = "male";
+        Situation = "Heart patient";
+        Age = 58;
+        PhoneNumber = "2595445865";
+        RoomNumber = 4;
+        doc_Nam = "mohammed ali";
+        depnumber = 1;
+    }
+
+    static void addPatient(vector<Patient>& patients, vector<string>& panNames, vector<Doctors>& Doctor);
+    static void displayselsctPatient(vector<Patient>& patients, vector<string>& panNames);
+    static void displayAllPatientsName(vector<string>& Namesp);
+    static void deletePatient(vector<Patient>& patients, vector<string>& panNames);
+    static string Randomdoct(vector<Doctors>& doctorinf);
+    static int RandomRoom();
+    static int Randomdep(vector<Doctors>& doctorinf);
+};
+
+class Doctors {
+public:
+    string doc_torName, dep_Name, Doc_specialty;
+
+    Doctors(string doc_torName, string dep_Name, string Doc_specialty) {
+        this->doc_torName = doc_torName;
+        this->dep_Name = dep_Name;
+        this->Doc_specialty = Doc_specialty;
+    }
+
+    static void addDoctor(vector<Doctors>& doctors, vector<string>& doctorNames);
+    static void SearchDoctor(vector<Doctors>& doctors, vector<string>& doctorNames);
+    static void deleteDoctor(vector<Doctors>& doctors, vector<string>& doctorNames);
+    static void displayDoctorsinfo(vector<Doctors>& doctorinf);
+};
+
+void Patient::addPatient(vector<Patient>& patients, vector<string>& panNames, vector<Doctors>& Doctor) {
+    cout << "\t\t >> Add Patient <<" << endl;
+    cout << "Patient Name: ";
+    string name;
+    getline(cin, name);
+
+    cout << "\nGender: ";
+    string gender;
+    getline(cin, gender);
+
+    cout << "\nAge: ";
+    int age;
+    cin >> age;
+    cin.ignore(); // لتجاوز المتبقي من السطر الذي يحتوي على العمر
+
+    cout << "\nPhone number: ";
+    string phoneNumber;
+    getline(cin, phoneNumber);
+
+    cout << "\nSituation: ";
+    string situation;
+    getline(cin, situation);
+
+    panNames.push_back(name);
+    string doc = Randomdoct(Doctor);
+    int room = RandomRoom();
+    int dep = Randomdep(Doctor);
+
+    Patient newPatient(name, gender, situation, age, phoneNumber, room, doc, dep);
+    patients.push_back(newPatient);
+    cout << "\nPatient added successfully" << endl;
+    cout << "\n _______________________________" << endl;
+}
+
+void Patient::displayselsctPatient(vector<Patient>& patients, vector<string>& panNames) {
+    cout << "\t\t >> Search Patient <<" << endl;
+
+    bool exist = false;
+    cout << "Enter patient name: ";
+    string target;
+    getline(cin, target);
+
+    for (size_t i = 0; i < patients.size(); i++) {
+        if (panNames[i] == target) {
+            cout << "Name: " << patients[i].Name << endl;
+            cout << "Age: " << patients[i].Age << endl;
+            cout << "Gender: " << patients[i].Gender << endl;
+            cout << "Situation: " << patients[i].Situation << endl;
+            cout << "The Doctor: " << patients[i].doc_Nam << endl;
+            cout << "Room number: " << patients[i].RoomNumber << endl;
+            cout << "Department number: " << patients[i].depnumber << endl;
+
+            exist = true;
+            cout << "\n _______________________________" << endl;
+            break;
+        }
+    }
+
+    if (!exist) {
+        cout << "Patient not found" << endl;
+        cout << "\n _______________________________" << endl;
+    }
+}
+
+void Patient::displayAllPatientsName(vector<string>& Namesp) {
+    int i = 1;
+    cout << "\t\t >>  Patients Names List <<" << endl;
+
+    cout << "Patient Names: ";
+    for (string p : Namesp) {
+        cout << i << "-) " << p << endl;
+        i++;
+    }
+    cout << "\n _______________________________" << endl;
+}
+
+void Patient::deletePatient(vector<Patient>& patients, vector<string>& panNames) {
+    cout << "\t\t >> Delete Patient <<" << endl;
+    bool exists = false;
+    cout << "Enter Patient Name: ";
+    string target;
+    getline(cin, target);
+
+    for (size_t count = 0; count < panNames.size(); count++) {
+        if (panNames[count] == target) {
+            patients.erase(patients.begin() + count);
+            panNames.erase(panNames.begin() + count);
+            cout << "Patient removed successfully." << endl;
+            cout << "\n _______________________________" << endl;
+
+            exists = true;
+            break;
+        }
+    }
+
+    if (!exists) {
+        cout << "Patient not found." << endl;
+        cout << "\n _______________________________" << endl;
+    }
+}
+
+string Patient::Randomdoct(vector<Doctors>& doctorinf) {
+    int r = rand() % doctorinf.size();
+    string name = doctorinf[r].doc_torName;
+    return name;
+}
+
+int Patient::RandomRoom() {
+    int r = rand() % 10;
+    return r;
+}
+
+int Patient::Randomdep(vector<Doctors>& doctorinf) {
+    int r = rand() % (doctorinf.size() - 1) + 1;
+    return r;
+}
+
+void Doctors::addDoctor(vector<Doctors>& doctors, vector<string>& doctorNames) {
+    cout << "\t\t >> Add Doctor <<" << endl;
+    cout << "Doctor Name: ";
+    string name;
+    getline(cin, name);
+
+    cout << "\nDepartment Name: ";
+    string dep_Name;
+    getline(cin, dep_Name);
+
+    cout << "\nSpecialty: ";
+    string Doc_specialty;
+    getline(cin, Doc_specialty);
+
+    doctorNames.push_back(name);
+    Doctors newDoctor(name, dep_Name, Doc_specialty);
+    doctors.push_back(newDoctor);
+    cout << "\nDoctor added successfully" << endl;
+    cout << "\n _______________________________" << endl;
+}
+
+void Doctors::SearchDoctor(vector<Doctors>& doctors, vector<string>& doctorNames) {
+    cout << "\t\t >> Search Doctor <<" << endl;
+    cout << "Doctor Name: ";
+    string target;
+    getline(cin, target);
+
+    bool exists = false;
+    for (size_t i = 0; i < doctors.size(); i++) {
+        if (doctorNames[i] == target) {
+            cout << "Name: " << doctors[i].doc_torName << endl;
+            cout << "Department Name: " << doctors[i].dep_Name << endl;
+            cout << "Specialty: " << doctors[i].Doc_specialty << endl;
+            exists = true;
+            cout << "\n _______________________________" << endl;
+            break;
+        }
+    }
+
+    if (!exists) {
+        cout << "Doctor not found" << endl;
+        cout << "\n _______________________________" << endl;
+    }
+}
+
+void Doctors::deleteDoctor(vector<Doctors>& doctors, vector<string>& doctorNames) {
+    cout << "\t\t >> Delete Doctor <<" << endl;
+    cout << "Enter Doctor Name: ";
+    string target;
+    getline(cin, target);
+
+    bool exists = false;
+    for (size_t i = 0; i < doctorNames.size(); i++) {
+        if (doctorNames[i] == target) {
+            doctors.erase(doctors.begin() + i);
+            doctorNames.erase(doctorNames.begin() + i);
+            cout << "Doctor removed successfully" << endl;
+            cout << "\n _______________________________" << endl;
+            exists = true;
+            break;
+        }
+    }
+
+    if (!exists) {
+        cout << "Doctor not found" << endl;
+        cout << "\n _______________________________" << endl;
+    }
+}
+
+void Doctors::displayDoctorsinfo(vector<Doctors>& doctorinf) {
+    cout << "\t\t >> Doctor Name List <<" << endl;
+    int i = 1;
+
+    cout << "\tDoctor Name:\tDepartment Name:\tSpecialty:\n";
+    for (Doctors d : doctorinf) {
+        cout << "\t" << d.doc_torName << "\t\t" << d.dep_Name << "\t\t" << d.Doc_specialty << "\n";
+        i++;
+    }
+    cout << "\n _______________________________" << endl;
+}
+
+void clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
+
+void Receptionist(vector<Patient>& patients, vector<string>& panNames, vector<Doctors>& doctors) {
+    clearScreen();
+    int choice1;
+    do {
+        cout << "\t\t >> Reception control panel <<" << endl;
+        cout << "1-) Add patient\n2-) Patients Name list\n3-) Search patient\n4-) Delete patient\n5-) Exit\n";
+        cin >> choice1;
+        cin.ignore();
+
+        switch (choice1) {
+        case 1:
+            Patient::addPatient(patients, panNames, doctors);
+            break;
+        case 2:
+            Patient::displayAllPatientsName(panNames);
+            break;
+        case 3:
+            Patient::displayselsctPatient(patients, panNames);
+            break;
+        case 4:
+            Patient::deletePatient(patients, panNames);
+            break;
+        case 5:
+            break;
+        default:
+            cout << "Invalid choice" << endl;
+            break;
+        }
+    } while (choice1 != 5);
+}
+
+void administrator(vector<string>& doctorNames, vector<Doctors>& doctors) {
+    clearScreen();
+    int choice3;
+    do {
+        cout << "\t\t >> Admin control panel <<" << endl;
+        cout << "1-) Add doctor\n2-) Search doctor\n3-) Delete doctor\n4-) Display doctor information\n5-) Exit\n";
+        cin >> choice3;
+        cin.ignore();
+
+        switch (choice3) {
+        case 1:
+            Doctors::addDoctor(doctors, doctorNames);
+            break;
+        case 2:
+            Doctors::SearchDoctor(doctors, doctorNames);
+            break;
+        case 3:
+            Doctors::deleteDoctor(doctors, doctorNames);
+            break;
+        case 4:
+            Doctors::displayDoctorsinfo(doctors);
+            break;
+        case 5:
+            break;
+        default:
+            cout << "Invalid choice" << endl;
+            break;
+        }
+    } while (choice3 != 5);
+}
+
+int main() {
+    srand(time(nullptr)); // تهيئة مولد الأرقام العشوائية
+
+    vector<Patient> patients;
+    vector<string> panNames;
+    vector<string> doctorNames;
+    vector<Doctors> doctors;
+
+    // Initialize data
+    doctors.emplace_back("mohammed ali", "cardiology", "cardiology");
+    doctorNames.emplace_back("mohammed ali");
+
+    patients.emplace_back("Moataz khalid", "male", "Heart patient", 58, "2595445865", 4, "mohammed ali", 1);
+    panNames.emplace_back("Moataz khalid");
+
+    string userName = "CSEngineers", Password = "123", userName1, Password1;
+    do {
+        clearScreen();
+        cout << "Register as\n1-) Administrator\n2-) Receptionist\n3-) Exit\n";
+        int choice;
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+        case 1:
+            clearScreen();
+            cout << "UserName: ";
+            getline(cin, userName1);
+            cout << "Password: ";
+            getline(cin, Password1);
+            clearScreen();
+            if (userName1 == userName && Password1 == Password) {
+                administrator(doctorNames, doctors);
+            }
+            else {
+                cout << "Invalid username or password" << endl;
+            }
+            break;
+        case 2:
+            Receptionist(patients, panNames, doctors);
+            break;
+        case 3:
+            return 0;
+        default:
+            cout << "Invalid choice" << endl;
+            break;
+        }
+    } while (true);
+
+    return 0;
+}
